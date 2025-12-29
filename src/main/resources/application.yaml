@@ -1,3 +1,19 @@
 spring:
-  application:
-    name: sendemail
+  mail:
+    host: ${MAIL_HOST}
+    port:  ${MAIL_PORT}
+    username:  ${MAIL_USERNAME}
+    password:  ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          from: ${MAIL_SMTP_FROM}
+          auth:  true
+          starttls:
+            enable:  true
+
+rabbitmq:
+  email:
+    queue-name: ${RABBITMQ_QUEUE_NAME}
+    exchange-name: ${RABBITMQ_EXCHANGE_NAME}
+    routing-key: ${RABBITMQ_ROUTING_KEY}
