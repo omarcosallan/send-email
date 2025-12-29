@@ -1,7 +1,6 @@
 package dev.marcos.sendemail.worker;
 
 import dev.marcos.sendemail.dto.EmailRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -9,7 +8,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 @Component
-@Slf4j
 public class EmailQueueConsumer {
 
     private final String fromEmail;
@@ -25,19 +23,13 @@ public class EmailQueueConsumer {
 
     @RabbitListener(queues = "${rabbitmq.email.queue-name}")
     public void handle(EmailRequest req) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
+        SimpleMailMessage message = new SimpleMailMessage();
 
-            message.setFrom(fromEmail);
-            message.setTo(req.to());
-            message.setSubject(req.subject());
-            message.setText(req.body());
+        message.setFrom(fromEmail);
+        message.setTo(req.to());
+        message.setSubject(req.subject());
+        message.setText(req.body());
 
-            mailSender.send(message);
-
-            log.info("Email enviado com sucesso!");
-        } catch (Exception e) {
-            log.error("Erro ao enviar email: {}", e.getMessage());
-        }
+        mailSender.send(message);
     }
 }
